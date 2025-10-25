@@ -1,30 +1,23 @@
-# 1️⃣ Use the latest Node.js (lightweight Alpine image)
+# 1️⃣ Use an official lightweight Node.js base image
 FROM node:25-alpine
 
-# 2️⃣ Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# 3️⃣ Copy package files
+# Copy package files first for better caching
 COPY package*.json ./
 
-# 4️⃣ Install dependencies
+# Install dependencies
 RUN npm install --production
 
-# 5️⃣ Copy source code
+# Copy the rest of your app
 COPY . .
 
-# 6️⃣ Copy .env file (optional — only if safe and needed)
-# COPY .env . 
+# Set environment variable (you can override it in docker run)
+ENV PORT=5000
 
-# 7️⃣ Define default environment variables
-ENV NODE_ENV=production
+# Expose the port (should match your .env PORT)
+EXPOSE ${PORT}
 
-# 8️⃣ Allow Docker to use a dynamic port from .env or docker run
-ARG PORT=5000
-ENV PORT=$PORT
-
-# 9️⃣ Expose the port (for documentation only)
-EXPOSE $PORT
-
-# 10️⃣ Start the app
+# Start the app
 CMD ["node", "server.js"]

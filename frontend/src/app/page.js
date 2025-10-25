@@ -2,7 +2,7 @@ import React from "react";
 
 const HomePage = async () => {
   let usersData = [];
-  const BASE_URL = process.env.BASE_URL ?? null;
+  const BASE_URL = "http://localhost:5000";
 
   try {
     const users = await fetch(`${BASE_URL}/users`);

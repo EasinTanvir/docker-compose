@@ -1,0 +1,24 @@
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-lock.yaml
+
+# Build output
+.next
+out
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Git and project files
+.git
+.gitignore
+README.md
+
+# Editor & system
+.vscode
+.idea
+.DS_Store
+*.swp

@@ -1,25 +1,18 @@
-import React from "react";
+export const dynamic = "force-dynamic";
 
 const HomePage = async () => {
-  let usersData = [];
-  const BASE_URL = process.env.BASE_URL;
-
-  try {
-    const users = await fetch(`${BASE_URL}/users`);
-    const data = await users.json();
-    usersData = data;
-  } catch (err) {
-    console.log("err", err);
+  const res = await fetch(`${process.env.BASE_URL}/users`);
+  if (!res.ok) {
+    throw new Error("Error");
   }
 
-  console.log("usersData", usersData);
+  const usersData = await res.json();
+
   return (
-    <div className=" p-10">
-      {BASE_URL ? (
-        usersData.map((item) => <h1 key={item.id}>{item.name}</h1>)
-      ) : (
-        <p>No Base Url Found</p>
-      )}
+    <div className="p-10">
+      {usersData.map((item) => (
+        <h1 key={item.id}>{item.name}</h1>
+      ))}
     </div>
   );
 };

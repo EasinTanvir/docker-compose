@@ -1,23 +1,15 @@
-# 1️⃣ Use an official lightweight Node.js base image
-FROM node:25-alpine
-
-# Set the working directory inside the container
+FROM node:20-alpine
 WORKDIR /app
 
-# Copy package files first for better caching
+# Copy package files first for caching
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm install --production
-
-# Copy the rest of your app
+# Copy the rest of the backend app
 COPY . .
 
-# Set environment variable (you can override it in docker run)
-ENV PORT=5000
+# Set default env (docker-compose will override with .env)
+ENV PORT=${PORT:-5000}
+EXPOSE 5000
 
-# Expose the port (should match your .env PORT)
-EXPOSE ${PORT}
-
-# Start the app
 CMD ["node", "server.js"]

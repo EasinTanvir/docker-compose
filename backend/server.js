@@ -10,7 +10,7 @@ const PORT = process.env.PORT;
 
 const users = [
   { id: 1, name: "Easin" },
-  { id: 2, name: "Tanvir" },
+  { id: 2, name: "Tanvirs" },
 ];
 
 app.get("/users", (req, res) => {

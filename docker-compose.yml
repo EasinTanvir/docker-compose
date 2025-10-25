@@ -1,5 +1,4 @@
-version: "3.8"
-name: app
+name: devapp
 
 services:
   backend:
@@ -9,14 +8,14 @@ services:
     environment:
       - PORT=5001
     ports:
-      - "5001:5000"
+      - "5001:5001"
     healthcheck:
       test:
         [
           "CMD",
           "node",
           "-e",
-          "require('http').get({host:'localhost',port:process.env.PORT||5000},()=>process.exit(0)).on('error',()=>process.exit(1))",
+          "require('http').get({host:'localhost',port:process.env.PORT||5001},()=>process.exit(0)).on('error',()=>process.exit(1))",
         ]
       interval: 10s
       timeout: 5s

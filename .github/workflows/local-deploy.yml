@@ -1,0 +1,25 @@
+name: Local Auto Deploy
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    rebuild-and-restart:
+        runs-on: self-hosted # This means it runs inside your Ubuntu container
+        steps:
+            - name: Checkout latest code
+              uses: actions/checkout@v4
+
+            - name: Rebuild and restart Docker containers
+              run: |
+                  echo "Pulling latest code..."
+                  git pull origin main || true
+
+                  echo "Rebuilding containers..."
+                  docker compose down || true
+                  docker compose build --no-cache
+                  docker compose up -d
+
+                  echo "✅ Deployment done."

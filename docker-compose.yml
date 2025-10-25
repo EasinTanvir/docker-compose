@@ -6,10 +6,10 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    env_file:
-      - ./backend/.env
+    environment:
+      - PORT=5001
     ports:
-      - "5000:5000"
+      - "5001:5000"
     healthcheck:
       test:
         [
@@ -27,14 +27,13 @@ services:
       context: .
       dockerfile: frontend/Dockerfile
       args:
-        NEXT_PUBLIC_BASE_URL: http://backend:5000
-        BASE_URL: http://backend:5000
-    env_file:
-      - ./frontend/.env
+        NEXT_PUBLIC_BASE_URL: http://backend:5001
+        BASE_URL: http://backend:5001
     environment:
-      - BASE_URL=http://backend:5000
-      - NEXT_PUBLIC_BASE_URL=http://backend:5000
+      - BASE_URL=http://backend:5001
+      - NEXT_PUBLIC_BASE_URL=http://backend:5001
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy

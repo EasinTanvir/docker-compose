@@ -7,19 +7,21 @@ on:
 
 jobs:
     rebuild-and-restart:
-        runs-on: self-hosted # This means it runs inside your Ubuntu container
+        runs-on: self-hosted
         steps:
             - name: Checkout latest code
               uses: actions/checkout@v4
 
-            - name: Rebuild and restart Docker containers
+            - name: Rebuild and restart containers (no downtime)
               run: |
-                  echo "Pulling latest code..."
-                  git pull origin main || true
+                  echo "🔄 Pulling latest code..."
+                  git fetch origin main
+                  git reset --hard origin/main
 
-                  echo "Rebuilding containers..."
-                  docker compose down || true
-                  docker compose build --no-cache
-                  docker compose up -d
+                  echo "⚙️ Rebuilding containers safely..."
+                  docker compose -p prodapp build
 
-                  echo "✅ Deployment done."
+                  echo "🚀 Starting updated containers..."
+                  docker compose -p prodapp up -d --remove-orphans
+
+                  echo "✅ Deployment complete."

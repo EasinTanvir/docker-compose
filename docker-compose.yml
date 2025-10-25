@@ -1,4 +1,4 @@
-name: devapp
+name: prodapp
 
 services:
   backend:
